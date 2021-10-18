@@ -60,3 +60,11 @@ func (m Must) Nil(a interface{}) {
 func (m Must) NotNil(a interface{}) {
 	m.NotEqual(nil, a)
 }
+
+func (m Must) True(a bool) {
+	m.Equal(true, a)
+}
+
+func (m Must) False(a bool) {
+	m.Equal(false, a)
+}
