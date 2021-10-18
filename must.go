@@ -52,3 +52,11 @@ func (m Must) NotEqual(a, b interface{}) {
 		m.t.Errorf("need %v, got %v", a, b)
 	}
 }
+
+func (m Must) Nil(a interface{}) {
+	m.Equal(nil, a)
+}
+
+func (m Must) NotNil(a interface{}) {
+	m.NotEqual(nil, a)
+}
