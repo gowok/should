@@ -25,4 +25,18 @@ func Test_Must(t *testing.T) {
 		must.NotEqual(1, 1)
 		New(t).True(must.t.Failed())
 	})
+
+	t.Run("Nil", func(t *testing.T) {
+		must := New(t)
+		must.Nil(nil)
+
+		var b []byte
+		must.Nil(b)
+	})
+
+	t.Run("Not Nil", func(t *testing.T) {
+		must := New(t)
+		must.NotNil(1)
+	})
+
 }
