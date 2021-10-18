@@ -2,8 +2,18 @@ package must
 
 import (
 	"reflect"
+	"testing"
 )
 
+type Must struct {
+	t testing.TB
+}
+
+func New(t testing.TB) *Must {
+	return &Must{
+		t: t,
+	}
+}
 
 func isNil(a interface{}) bool {
 	if a == nil {
