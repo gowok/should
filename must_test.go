@@ -39,4 +39,13 @@ func Test_Must(t *testing.T) {
 		must.NotNil(1)
 	})
 
+	t.Run("True", func(t *testing.T) {
+		must := New(t)
+		must.True(true)
+	})
+
+	t.Run("False", func(t *testing.T) {
+		must := New(t)
+		must.False(false)
+	})
 }
