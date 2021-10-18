@@ -40,3 +40,15 @@ func isEqual(a, b interface{}) bool {
 
 	return reflect.ValueOf(a) == reflect.ValueOf(b)
 }
+
+func (m Must) Equal(a, b interface{}) {
+	if !isEqual(a, b) {
+		m.t.Errorf("need %v, got %v", a, b)
+	}
+}
+
+func (m Must) NotEqual(a, b interface{}) {
+	if isEqual(a, b) {
+		m.t.Errorf("need %v, got %v", a, b)
+	}
+}
