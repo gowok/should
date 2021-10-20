@@ -1,7 +1,11 @@
 package must
 
 import (
+	"fmt"
+	"path/filepath"
 	"reflect"
+	"regexp"
+	"runtime"
 	"testing"
 )
 
@@ -41,15 +45,43 @@ func isEqual(a, b interface{}) bool {
 	return reflect.ValueOf(a) == reflect.ValueOf(b)
 }
 
+var reIsSourceFile = regexp.MustCompile("must\\.go$")
+
+func (m Must) callerinfo() (path string, line int, ok bool) {
+	for i := 0; ; i++ {
+		_, path, line, ok = runtime.Caller(i)
+		if !ok {
+			return
+		}
+
+		if reIsSourceFile.MatchString(path) {
+			continue
+		}
+
+		return path, line, true
+	}
+}
+
+func (m Must) logAndFail(args ...interface{}) {
+	path, line, ok := m.callerinfo()
+	if !ok {
+		path = "???"
+		line = 1
+	}
+	path = filepath.Base(path)
+	fmt.Printf("\t  %s:%d: %s\n", path, line, fmt.Sprint(args...))
+	m.t.Fail()
+}
+
 func (m Must) Equal(a, b interface{}) {
 	if !isEqual(a, b) {
-		m.t.Errorf("need %v, got %v", a, b)
+		m.logAndFail(fmt.Sprintf("need %v, got %v", a, b))
 	}
 }
 
 func (m Must) NotEqual(a, b interface{}) {
 	if isEqual(a, b) {
-		m.t.Errorf("need %v, got %v", a, b)
+		m.logAndFail(fmt.Sprintf("need %v, got %v", a, b))
 	}
 }
 

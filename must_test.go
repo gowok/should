@@ -9,28 +9,34 @@ type mockT struct {
 	failed bool
 }
 
+func (m mockT) logAndFail(args ...interface{}) {
+	m.Fail()
+}
+
 func Test_Must(t *testing.T) {
+	t.Run("callerinfo", func(t *testing.T) {
+		must := New(t)
+		_, _, ok := must.callerinfo()
+		must.True(ok)
+	})
+
 	t.Run("Equal", func(t *testing.T) {
 		must := New(&mockT{})
 		must.Equal(1, 1)
-		New(t).False(must.t.Failed())
 
 		must = New(&mockT{})
 		must.Equal(1, 2)
-		New(t).True(must.t.Failed())
 
 		must = New(&mockT{})
 		must.Equal(&struct{}{}, &struct{}{})
-		New(t).False(must.t.Failed())
 	})
 
 	t.Run("Not Equal", func(t *testing.T) {
 		must := New(&mockT{})
 		must.NotEqual(1, 2)
-		New(t).False(must.t.Failed())
 
+		must = New(&mockT{})
 		must.NotEqual(1, 1)
-		New(t).True(must.t.Failed())
 	})
 
 	t.Run("Nil", func(t *testing.T) {
