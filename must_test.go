@@ -1,6 +1,8 @@
 package must
 
-import "testing"
+import (
+	"testing"
+)
 
 type mockT struct {
 	testing.T
@@ -13,8 +15,13 @@ func Test_Must(t *testing.T) {
 		must.Equal(1, 1)
 		New(t).False(must.t.Failed())
 
+		must = New(&mockT{})
 		must.Equal(1, 2)
 		New(t).True(must.t.Failed())
+
+		must = New(&mockT{})
+		must.Equal(&struct{}{}, &struct{}{})
+		New(t).False(must.t.Failed())
 	})
 
 	t.Run("Not Equal", func(t *testing.T) {
@@ -37,6 +44,7 @@ func Test_Must(t *testing.T) {
 	t.Run("Not Nil", func(t *testing.T) {
 		must := New(t)
 		must.NotNil(1)
+		must.NotNil(&struct{}{})
 	})
 
 	t.Run("True", func(t *testing.T) {
