@@ -19,7 +19,7 @@ func New(t testing.TB) *Must {
 	}
 }
 
-func isNil(a interface{}) bool {
+func isNil(a any) bool {
 	if a == nil {
 		return true
 	}
@@ -33,7 +33,7 @@ func isNil(a interface{}) bool {
 	return false
 }
 
-func isEqual(a, b interface{}) bool {
+func isEqual(a, b any) bool {
 	if isNil(a) && isNil(b) {
 		return true
 	}
@@ -62,7 +62,7 @@ func (m Must) callerinfo() (path string, line int, ok bool) {
 	}
 }
 
-func (m Must) logAndFail(args ...interface{}) {
+func (m Must) logAndFail(args ...any) {
 	path, line, ok := m.callerinfo()
 	if !ok {
 		path = "???"
@@ -73,23 +73,23 @@ func (m Must) logAndFail(args ...interface{}) {
 	m.t.Fail()
 }
 
-func (m Must) Equal(a, b interface{}) {
+func (m Must) Equal(a, b any) {
 	if !isEqual(a, b) {
 		m.logAndFail(fmt.Sprintf("need %v, got %v", a, b))
 	}
 }
 
-func (m Must) NotEqual(a, b interface{}) {
+func (m Must) NotEqual(a, b any) {
 	if isEqual(a, b) {
 		m.logAndFail(fmt.Sprintf("need %v, got %v", a, b))
 	}
 }
 
-func (m Must) Nil(a interface{}) {
+func (m Must) Nil(a any) {
 	m.Equal(nil, a)
 }
 
-func (m Must) NotNil(a interface{}) {
+func (m Must) NotNil(a any) {
 	m.NotEqual(nil, a)
 }
 
