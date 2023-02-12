@@ -37,3 +37,8 @@ func (t that[T]) True() that[T] {
 	t.m.Equal(t.v, true)
 	return t
 }
+
+func (t that[T]) False() that[T] {
+	t.m.Equal(t.v, false)
+	return t
+}
