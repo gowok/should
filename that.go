@@ -32,3 +32,8 @@ func (t that[T]) NotNil() that[T] {
 	t.m.NotNil(t.v)
 	return t
 }
+
+func (t that[T]) True() that[T] {
+	t.m.Equal(t.v, true)
+	return t
+}
