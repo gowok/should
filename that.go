@@ -1,11 +1,11 @@
-package must
+package should
 
 import (
 	"testing"
 )
 
 type that[T any] struct {
-	m *Must
+	m *Should
 	v any
 }
 

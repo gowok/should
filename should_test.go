@@ -1,4 +1,4 @@
-package must
+package should
 
 import (
 	"testing"
@@ -9,65 +9,65 @@ type mockT struct {
 	failed bool
 }
 
-func Test_Must(t *testing.T) {
+func Test_Should(t *testing.T) {
 	t.Run("callerinfo", func(t *testing.T) {
-		must := New(t)
-		_, _, ok := must.callerinfo()
-		must.True(ok)
+		should := New(t)
+		_, _, ok := should.callerinfo()
+		should.True(ok)
 	})
 
 	t.Run("logAndFail", func(t *testing.T) {
 		tt := &mockT{}
-		must := New(tt)
-		must.logAndFail()
+		should := New(tt)
+		should.logAndFail()
 		False(t, tt.failed)
 	})
 
 	t.Run("Equal", func(t *testing.T) {
 		tt := &mockT{}
-		must := New(tt)
-		must.Equal(1, 1)
-		must.Equal(&struct{}{}, &struct{}{})
+		should := New(tt)
+		should.Equal(1, 1)
+		should.Equal(&struct{}{}, &struct{}{})
 		False(t, tt.failed)
 	})
 
 	t.Run("Not Equal", func(t *testing.T) {
 		tt := &mockT{}
-		must := New(tt)
-		must.NotEqual(1, 2)
-		must.NotEqual(&struct{ i int }{1}, &struct{ i int }{2})
+		should := New(tt)
+		should.NotEqual(1, 2)
+		should.NotEqual(&struct{ i int }{1}, &struct{ i int }{2})
 		False(t, tt.failed)
 	})
 
 	t.Run("Nil", func(t *testing.T) {
 		tt := &mockT{}
-		must := New(tt)
-		must.Nil(nil)
+		should := New(tt)
+		should.Nil(nil)
 
 		var b []byte
-		must.Nil(b)
+		should.Nil(b)
 		False(t, tt.failed)
 	})
 
 	t.Run("Not Nil", func(t *testing.T) {
 		tt := &mockT{}
-		must := New(tt)
-		must.NotNil(1)
-		must.NotNil(&struct{}{})
+		should := New(tt)
+		should.NotNil(1)
+		should.NotNil(&struct{}{})
 		False(t, tt.failed)
 	})
 
 	t.Run("True", func(t *testing.T) {
 		tt := &mockT{}
-		must := New(t)
-		must.True(true)
+		should := New(t)
+		should.True(true)
 		False(t, tt.failed)
 	})
 
 	t.Run("False", func(t *testing.T) {
 		tt := &mockT{}
-		must := New(t)
-		must.False(false)
+		should := New(t)
+		should.False(false)
 		False(t, tt.failed)
 	})
 }

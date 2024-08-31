@@ -1,3 +1,3 @@
-module github.com/golang-must/must
+module github.com/gowok/should
 
-go 1.20
+go 1.22

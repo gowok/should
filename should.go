@@ -1,4 +1,4 @@
-package must
+package should
 
 import (
 	"fmt"
@@ -9,16 +9,16 @@ import (
 	"testing"
 )
 
-// Must contains single testing.TB instance
+// Should contains single testing.TB instance
 // and it will be reuse in same test case
-type Must struct {
+type Should struct {
 	t testing.TB
 }
 
 // New need testing.TB as parameter
-// and Must instance will be returned
-func New(t testing.TB) *Must {
-	return &Must{
+// and Should instance will be returned
+func New(t testing.TB) *Should {
+	return &Should{
 		t: t,
 	}
 }
@@ -51,7 +51,7 @@ func isEqual(a, b any) bool {
 
 var reIsSourceFile = regexp.MustCompile("must\\.go$")
 
-func (m Must) callerinfo() (path string, line int, ok bool) {
+func (m Should) callerinfo() (path string, line int, ok bool) {
 	for i := 0; ; i++ {
 		_, path, line, ok = runtime.Caller(i)
 		if !ok {
@@ -66,7 +66,7 @@ func (m Must) callerinfo() (path string, line int, ok bool) {
 	}
 }
 
-func (m Must) logAndFail(args ...any) {
+func (m Should) logAndFail(args ...any) {
 	path, line, ok := m.callerinfo()
 	if !ok {
 		path = "???"
@@ -78,35 +78,35 @@ func (m Must) logAndFail(args ...any) {
 }
 
 // Equal check are a and b equal, if not it will be failed
-func (m Must) Equal(a, b any) {
+func (m Should) Equal(a, b any) {
 	if !isEqual(a, b) {
 		m.logAndFail(fmt.Sprintf("need %v, got %v", a, b))
 	}
 }
 
 // NotEqual reverse of Equal which is failed if a and b are equal
-func (m Must) NotEqual(a, b any) {
+func (m Should) NotEqual(a, b any) {
 	if isEqual(a, b) {
 		m.logAndFail(fmt.Sprintf("need %v, got %v", a, b))
 	}
 }
 
 // Nil check is a nil, if not it will be failed
-func (m Must) Nil(a any) {
+func (m Should) Nil(a any) {
 	m.Equal(nil, a)
 }
 
 // NotNil reverse of Nil which is failed if a nil
-func (m Must) NotNil(a any) {
+func (m Should) NotNil(a any) {
 	m.NotEqual(nil, a)
 }
 
 // True check is a true, if not it will be failed
-func (m Must) True(a bool) {
+func (m Should) True(a bool) {
 	m.Equal(true, a)
 }
 
 // False check is a false, if not it will be failed
-func (m Must) False(a bool) {
+func (m Should) False(a bool) {
 	m.Equal(false, a)
 }

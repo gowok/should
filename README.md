@@ -1,4 +1,4 @@
-# must
+# should
 Assertion utilities for testing in Go
 
 Write your test as usual.
@@ -39,10 +39,10 @@ func TestAdd(t *testing.T) {
 	actual := Add(a, b)
 	expected := 3
 
-	must := must.New(t)
-	must.Equal(expected, actual)
-	must.True(actual <= a)
-	must.True(actual <= b)
+	must := should.New(t)
+	should.Equal(expected, actual)
+	should.True(actual <= a)
+	should.True(actual <= b)
 }
 ```
 
